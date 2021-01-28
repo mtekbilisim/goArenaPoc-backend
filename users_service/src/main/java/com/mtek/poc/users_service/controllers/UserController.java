@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RestController()
+@RestController
 @RequestMapping(value = "/")
 public class UserController {
 
@@ -26,6 +26,11 @@ public class UserController {
         return this.userRepository.save(userModel);
     }
 
+  /*  @GetMapping("/{who:[a-zA-Z]+}")
+    public String test(@PathVariable("who") String who) {
+        return who;
+    }*/
+
     @GetMapping("/{id}")
     public Mono<UserModel> get(@PathVariable("id") Integer id) {
         return this.userRepository.findById(id);
@@ -40,7 +45,7 @@ public class UserController {
 
                     return p;
                 })
-                .flatMap(p -> this.userRepository.save(p));
+                .flatMap(this.userRepository::save);
     }
 
     @DeleteMapping("/{id}")
