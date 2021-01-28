@@ -17,22 +17,34 @@ public class GoArenaGatewayApplication {
 
     @Bean
     public RouteLocator userServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
-        return routeLocatorBuilder.routes().route("users-service", r -> r.path("/users").uri("lb://users-service")).build();
+        return routeLocatorBuilder.routes()
+                .route("users-service", r -> r.path("/users/**")
+                        .filters(f -> f.rewritePath("/users/?(?<segment>.*)", "/${segment}"))
+                        .uri("lb://users-service")).build();
     }
 
     @Bean
     public RouteLocator feedServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
-        return routeLocatorBuilder.routes().route("feeds-service", r -> r.path("/feed").uri("lb://feeds-service")).build();
+        return routeLocatorBuilder.routes()
+                .route("feeds-service", r -> r.path("/feed/**")
+                        .filters(f -> f.rewritePath("/feed/?(?<segment>.*)", "/${segment}"))
+                        .uri("lb://feeds-service")).build();
     }
 
     @Bean
     public RouteLocator fileServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
-        return routeLocatorBuilder.routes().route("files-service", r -> r.path("/files").uri("lb://files-service")).build();
+        return routeLocatorBuilder.routes()
+                .route("files-service", r -> r.path("/files/**")
+                        .filters(f -> f.rewritePath("/files/?(?<segment>.*)", "/${segment}"))
+                        .uri("lb://files-service")).build();
     }
 
     @Bean
     public RouteLocator dashboardServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
-        return routeLocatorBuilder.routes().route("dashboard-service", r -> r.path("/dashboard").uri("lb://dashboard-service")).build();
+        return routeLocatorBuilder.routes()
+                .route("dashboard-service", r -> r.path("/dashboard/**")
+                        .filters(f -> f.rewritePath("/dashboard/?(?<segment>.*)", "/${segment}"))
+                        .uri("lb://dashboard-service")).build();
     }
 
 }
