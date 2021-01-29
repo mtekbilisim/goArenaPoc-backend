@@ -18,17 +18,17 @@ public class GoArenaGatewayApplication {
     @Bean
     public RouteLocator userServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
         return routeLocatorBuilder.routes()
-                .route("users-service", r -> r.path("/users/**")
+                .route("user-service", r -> r.path("/users/**")
                         .filters(f -> f.rewritePath("/users/?(?<segment>.*)", "/${segment}"))
-                        .uri("lb://users-service")).build();
+                        .uri("lb://user-service")).build();
     }
 
     @Bean
     public RouteLocator feedServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
         return routeLocatorBuilder.routes()
-                .route("feeds-service", r -> r.path("/feed/**")
+                .route("feed-service", r -> r.path("/feed/**")
                         .filters(f -> f.rewritePath("/feed/?(?<segment>.*)", "/${segment}"))
-                        .uri("lb://feeds-service")).build();
+                        .uri("lb://feed-service")).build();
     }
 
     @Bean
