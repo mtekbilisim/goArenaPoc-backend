@@ -1,14 +1,5 @@
 package com.mtek.poc.user_service.configs;
 
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder
-import org.keycloak.OAuth2Constants.CLIENT_CREDENTIALS
-import org.keycloak.OAuth2Constants.PASSWORD
-import org.keycloak.admin.client.Keycloak
-import org.keycloak.admin.client.KeycloakBuilder
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-
 //
 //@Configuration
 //class KeycloakClientConfig(

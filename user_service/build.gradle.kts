@@ -26,9 +26,9 @@ extra["springCloudVersion"] = "2020.0.0"
 extra["keycloakVersion"] = "12.0.2"
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.keycloak:keycloak-spring-boot-starter")
@@ -42,7 +42,6 @@ dependencies {
     implementation("org.jboss.resteasy:resteasy-client:3.9.1.Final")
 
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("io.r2dbc:r2dbc-postgresql")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
