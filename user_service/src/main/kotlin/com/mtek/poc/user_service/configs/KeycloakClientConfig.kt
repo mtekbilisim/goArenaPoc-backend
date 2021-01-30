@@ -1,5 +1,6 @@
 package com.mtek.poc.user_service.configs;
-/*
+
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder
 import org.keycloak.OAuth2Constants.CLIENT_CREDENTIALS
 import org.keycloak.OAuth2Constants.PASSWORD
 import org.keycloak.admin.client.Keycloak
@@ -8,40 +9,26 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
-
-
-@Configuration
-class KeycloakClientConfig(
-        @Value("\${keycloak.credentials.secret}")
-        private val secretKey: String,
-        @Value("\${keycloak.resource}")
-        private val clientId: String,
-        @Value("\${keycloak.auth-server-url}")
-        private val authUrl: String,
-        @Value("\${keycloak.realm}")
-        private val realm: String
-) {
-    @Bean
-    fun keycloak(): Keycloak {
-        return KeycloakBuilder.builder()
-                .grantType(CLIENT_CREDENTIALS)
-                .serverUrl(authUrl)
-                .realm(realm)
-                .clientId(clientId)
-                .clientSecret(secretKey)
-                .build()
-    }
-
-    fun keycloakAuth(username:String, password:String): Keycloak {
-        return KeycloakBuilder.builder()
-                .grantType(PASSWORD)
-                .serverUrl(authUrl)
-                .realm(realm)
-                .clientId(clientId)
-                .clientSecret(secretKey)
-                .username(username)
-                .password(password)
-                .build()
-    }
-
-}*/
+//
+//@Configuration
+//class KeycloakClientConfig(
+//    @Value("\${keycloak.credentials.secret}")
+//    private val secretKey: String,
+//    @Value("\${keycloak.resource}")
+//    private val clientId: String,
+//    @Value("\${keycloak.auth-server-url}")
+//    private val authUrl: String,
+//    @Value("\${keycloak.realm}")
+//    private val realm: String
+//) {
+//    @Bean
+//    fun keycloak(): Keycloak {
+//        return KeycloakBuilder.builder()
+//            .grantType(CLIENT_CREDENTIALS)
+//            .serverUrl(authUrl)
+//            .realm(realm)
+//            .clientId(clientId)
+//            .clientSecret(secretKey)
+//            .build()
+//    }
+//}

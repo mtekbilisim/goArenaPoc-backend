@@ -38,7 +38,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation ("org.keycloak:keycloak-admin-client:${property("keycloakVersion")}")
+    implementation("org.keycloak:keycloak-admin-client:${property("keycloakVersion")}")
+    implementation("org.jboss.resteasy:resteasy-client:3.9.1.Final")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("io.r2dbc:r2dbc-postgresql")
     runtimeOnly("org.postgresql:postgresql")

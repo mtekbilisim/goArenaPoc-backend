@@ -24,15 +24,6 @@ class FeedController(private val feedRepository: FeedsRepository) {
         return feedRepository.save(feedModel)
     }
 
-    @PostMapping("/auth")
-    fun auth(@RequestBody feedModel: FeedModel): Mono<FeedModel> {
-        return feedRepository.save(feedModel)
-    }
-
-    /*  @GetMapping("/{who:[a-zA-Z]+}")
-    public String test(@PathVariable("who") String who) {
-        return who;
-    }*/
     @GetMapping("/{id}")
     operator fun get(@PathVariable("id") id: Long): Mono<FeedModel> {
         return feedRepository.findById(id)

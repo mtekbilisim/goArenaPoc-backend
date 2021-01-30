@@ -1,13 +1,10 @@
 package com.mtek.poc.user_service.controller
 
 //import com.mtek.poc.user_service.configs.KeycloakClientConfig
-import com.mtek.poc.user_service.model.AuthModel
 import com.mtek.poc.user_service.model.UserModel
 import com.mtek.poc.user_service.repository.UserRepository
 //import org.keycloak.admin.client.Keycloak
 //import org.keycloak.representations.AccessTokenResponse
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Profile
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
