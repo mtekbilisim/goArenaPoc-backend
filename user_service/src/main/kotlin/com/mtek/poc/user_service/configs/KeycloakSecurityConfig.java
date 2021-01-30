@@ -1,3 +1,4 @@
+/*
 package com.mtek.poc.user_service.configs;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
@@ -49,3 +50,4 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         return new KeycloakSpringBootConfigResolver();
     }
 }
+*/

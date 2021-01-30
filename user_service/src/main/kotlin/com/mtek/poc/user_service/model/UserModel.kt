@@ -13,20 +13,20 @@ import org.springframework.data.relational.core.mapping.Table
 @Table("users.users")
 open class UserModel(
         @Column
-        var username: String,
+        var username: String?,
         @Column
-        var password: String,
+        var password: String?,
         @Column
-        var avatar: String,
+        var avatar: String?,
         @Column
-        var email: String,
+        var email: String?,
         @Column
-        var first_name: String,
+        var first_name: String?,
         @Column
-        var last_name: String,
+        var last_name: String?,
         @Column
-        var uuid: String,
+        var uuid: String?,
         @Id
         @Column
-        var id: String
+        var id: Long?
 )

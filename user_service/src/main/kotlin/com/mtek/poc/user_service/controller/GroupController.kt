@@ -1,4 +1,5 @@
-package com.mtek.poc.user_service.controllers
+package com.mtek.poc.user_service.controller
+/*
 
 import com.mtek.poc.user_service.services.GroupService
 import org.springframework.web.bind.annotation.*
@@ -14,4 +15,4 @@ class GroupController(
     @PostMapping
     fun createGroup(@RequestParam name: String) =
             groupService.create(name)
-}
+}*/

@@ -1,4 +1,5 @@
 package com.mtek.poc.user_service.services
+/*
 
 import com.mtek.poc.user_service.model.UserModel
 import org.keycloak.admin.client.Keycloak
@@ -88,4 +89,4 @@ class UserService(
         newUser.isEmailVerified = true
         return newUser
     }
-}
+}*/

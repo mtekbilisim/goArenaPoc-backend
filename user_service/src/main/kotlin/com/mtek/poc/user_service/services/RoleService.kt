@@ -1,5 +1,6 @@
 package com.mtek.poc.user_service.services
 
+/*
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.representations.idm.RoleRepresentation
 import org.springframework.beans.factory.annotation.Value
@@ -30,4 +31,4 @@ class RoleService(
                     .roles()
                     .get(roleName)
                     .toRepresentation()
-}
+}*/

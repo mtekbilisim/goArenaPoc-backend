@@ -1,5 +1,6 @@
 package com.mtek.poc.user_service.services
 
+/*
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.representations.idm.GroupRepresentation
 import org.springframework.beans.factory.annotation.Value
@@ -24,4 +25,4 @@ class GroupService(
                     .realm(realm)
                     .groups()
                     .groups()
-}
+}*/
