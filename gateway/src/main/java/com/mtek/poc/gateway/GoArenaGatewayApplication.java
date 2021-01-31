@@ -16,32 +16,17 @@ public class GoArenaGatewayApplication {
     }
 
     @Bean
-    public RouteLocator userServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
+    public RouteLocator GenericServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
         return routeLocatorBuilder.routes()
                 .route("user-service", r -> r.path("/users/**")
                         .filters(f -> f.rewritePath("/users/?(?<segment>.*)", "/${segment}"))
-                        .uri("lb://user-service")).build();
-    }
-
-    @Bean
-    public RouteLocator feedServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
-        return routeLocatorBuilder.routes()
-                .route("feed-service", r -> r.path("/feed/**")
-                        .filters(f -> f.rewritePath("/feed/?(?<segment>.*)", "/${segment}"))
-                        .uri("lb://feed-service")).build();
-    }
-
-    @Bean
-    public RouteLocator fileServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
-        return routeLocatorBuilder.routes()
-                .route("files-service", r -> r.path("/files/**")
+                        .uri("lb://user-service"))
+                .route("feed-service", r -> r.path("/feeds/**")
+                        .filters(f -> f.rewritePath("/feeds/?(?<segment>.*)", "/${segment}"))
+                        .uri("lb://feed-service"))
+                .route("file-service", r -> r.path("/files/**")
                         .filters(f -> f.rewritePath("/files/?(?<segment>.*)", "/${segment}"))
-                        .uri("lb://files-service")).build();
-    }
-
-    @Bean
-    public RouteLocator dashboardServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
-        return routeLocatorBuilder.routes()
+                        .uri("lb://file-service"))
                 .route("dashboard-service", r -> r.path("/dashboard/**")
                         .filters(f -> f.rewritePath("/dashboard/?(?<segment>.*)", "/${segment}"))
                         .uri("lb://dashboard-service")).build();

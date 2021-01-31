@@ -1,4 +1,4 @@
-package com.mtek.poc.user_service.configs
+package com.mtek.poc.feed_service.configs
 
 import org.keycloak.adapters.KeycloakConfigResolver
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver
