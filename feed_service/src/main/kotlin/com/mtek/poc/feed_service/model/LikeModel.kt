@@ -4,18 +4,15 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "comments", schema = "feeds")
-class CommentModel(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long,
-    @Column
-    var comment: String?,
+@Table(name = "likes", schema = "feeds")
+class LikeModel(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long,
     @Column
     var postDate: LocalDateTime? = LocalDateTime.now(),
+    @Column
+    var feedId: Long,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     var user: UserModel,
-    @Column
-    var feedId: Long
-) {
-
-}
+)

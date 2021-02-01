@@ -1,51 +1,56 @@
 package com.mtek.poc.employee_service.controller
 
+import com.mtek.poc.employee_service.model.ShopModel
 import com.mtek.poc.employee_service.model.ShopWithEmployeesModel
-import com.mtek.poc.employee_service.repository.ShopRepository
+import com.mtek.poc.employee_service.repository.ShopGetRepository
+import com.mtek.poc.employee_service.repository.ShopPostRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.rest.webmvc.ResourceNotFoundException
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping(value = ["/shops"])
-class ShopController()  {
+@RequestMapping(value = ["/"])
+class ShopController() {
 
 
     @Autowired
-    private lateinit var shopRepository : ShopRepository
+    private lateinit var shopGetRepository: ShopGetRepository
+
+    @Autowired
+    private lateinit var shopPostRepository: ShopPostRepository
 
 
     // @RolesAllowed("goarena-admins")
     @GetMapping("")
-    fun all(): MutableIterable<ShopWithEmployeesModel> {
-        return shopRepository.findAll()
+    fun all(): List<ShopWithEmployeesModel> {
+        return shopGetRepository.findAll()
     }
 
     //  @RolesAllowed("goarena-shops")
     @PostMapping("")
-    fun create(@RequestBody shopModel: ShopWithEmployeesModel): ShopWithEmployeesModel {
+    fun create(@RequestBody shopModel: ShopModel): ShopModel {
 
-        return shopRepository.save(shopModel)
+        return shopPostRepository.save(shopModel)
     }
 
     @GetMapping("/{id}")
     fun get(@PathVariable("id") id: Long): ShopWithEmployeesModel? {
-        return shopRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+        return shopGetRepository.findById(id).orElseThrow { ResourceNotFoundException() }
 
     }
 
     // @RolesAllowed("goarena-shops")
     @PutMapping("/{id}")
-    fun update(@PathVariable("id") id: Long, @Valid @RequestBody shopModel: ShopWithEmployeesModel): ShopWithEmployeesModel? {
-        val entity :ShopWithEmployeesModel = shopRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+    fun update(@PathVariable("id") id: Long, @Valid @RequestBody shopModel: ShopModel): ShopModel? {
+        val entity: ShopModel = shopPostRepository.findById(id).orElseThrow { ResourceNotFoundException() }
         entity.name = shopModel.name
-        return shopRepository.save(entity)
+        return shopPostRepository.save(entity)
     }
 
     //  @RolesAllowed("goarena-admins")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long) {
-        return shopRepository.deleteById(id)
+        return shopGetRepository.deleteById(id)
     }
 }

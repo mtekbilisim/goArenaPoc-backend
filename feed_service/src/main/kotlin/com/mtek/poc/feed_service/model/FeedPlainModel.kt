@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "feeds", schema = "feeds")
-class FeedModel(
+class FeedPlainModel(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long,
     @Column
     var title: String,
@@ -16,17 +16,13 @@ class FeedModel(
     var postType: FeedType = FeedType.TEXT,
     @Column
     var likes: Int? = 0,
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "feedId", referencedColumnName = "id")
-    var comments: List<CommentModel>,
+
     @Column
     var postDate: LocalDateTime? = LocalDateTime.now(),
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "feedId", referencedColumnName = "id")
-    var medias: List<MediaModel>?,
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    var user: UserModel,
+
+    @Column
+    var userId: Long,
+
     @Column
     @Enumerated(EnumType.STRING)
     var status: FeedStatus = FeedStatus.DRAFT

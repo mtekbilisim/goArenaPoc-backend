@@ -5,15 +5,14 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "comments", schema = "feeds")
-class CommentModel(
+class CommentPlainModel(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long,
     @Column
     var comment: String?,
     @Column
     var postDate: LocalDateTime? = LocalDateTime.now(),
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    var user: UserModel,
+    @Column
+    var userId: Long,
     @Column
     var feedId: Long
 ) {

@@ -1,10 +1,13 @@
 package com.mtek.poc.feed_service.controller
 
 import com.mtek.poc.feed_service.model.FeedModel
+import com.mtek.poc.feed_service.model.FeedPlainModel
+import com.mtek.poc.feed_service.repository.FeedsPostRepository
 import com.mtek.poc.feed_service.repository.FeedsRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.rest.webmvc.ResourceNotFoundException
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
 import javax.annotation.security.RolesAllowed
 
 //import com.mtek.poc.users_service.configs.KeycloakClientConfig;
@@ -13,6 +16,8 @@ import javax.annotation.security.RolesAllowed
 class FeedController() {
     @Autowired
     private lateinit var feedRepository : FeedsRepository
+    @Autowired
+    private lateinit var feedPostRepository : FeedsPostRepository
 
     //@RolesAllowed("goarena-admins")
     @GetMapping("")
@@ -22,9 +27,9 @@ class FeedController() {
 
     //@RolesAllowed("goarena-users")
     @PostMapping("")
-    fun create(@RequestBody feedModel: FeedModel): FeedModel {
+    fun create(@RequestBody feedPlainModel: FeedPlainModel): FeedPlainModel {
         //new KeycloakClientConfig().keycloak().tokenManager().getAccessToken()
-        return feedRepository.save(feedModel)
+        return feedPostRepository.save(feedPlainModel)
     }
 
     @GetMapping("/{id}")
@@ -34,9 +39,12 @@ class FeedController() {
 
     //@RolesAllowed("goarena-users")
     @PutMapping("/{id}")
-    fun update(@PathVariable("id") id: Long, @RequestBody feedModel: FeedModel): FeedModel {
-        val entity= feedRepository.findById(id).orElseThrow { ResourceNotFoundException() }
-        return feedRepository.save(entity)
+    fun update(@PathVariable("id") id: Long, @RequestBody feedPlainModel: FeedPlainModel): FeedPlainModel {
+        val entity= feedPostRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+        entity.postDate= LocalDateTime.now()
+        entity.title = feedPlainModel.title
+        entity.postType = feedPlainModel.postType
+        return feedPostRepository.save(entity)
     }
 
   //  @RolesAllowed("goarena-admins")

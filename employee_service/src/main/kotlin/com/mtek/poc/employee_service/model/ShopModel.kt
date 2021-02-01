@@ -4,11 +4,9 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "shops", schema = "users")
-class ShopModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+class ShopModel(
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long,
+    @Column var name: String?
+) {
 
-    @Column
-    var name: String? = null
 }

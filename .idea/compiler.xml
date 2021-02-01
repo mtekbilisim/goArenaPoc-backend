@@ -5,6 +5,7 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="shop_service" target="15" />
       <module name="users_service.main" target="15" />
       <module name="users_service.test" target="15" />
     </bytecodeTargetLevel>
