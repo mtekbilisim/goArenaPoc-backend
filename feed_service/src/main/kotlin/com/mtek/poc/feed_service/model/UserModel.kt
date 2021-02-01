@@ -1,9 +1,6 @@
 package com.mtek.poc.feed_service.model
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name="users",schema="users")
@@ -12,9 +9,7 @@ class UserModel(
     val username: String? = "",
     @Column
     val avatar: String? = "",
-    @Id
-    @Column
-    val id: Long? = 0,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0,
 ) {
 
 }

@@ -18,9 +18,9 @@ public class GoArenaGatewayApplication {
     @Bean
     public RouteLocator GenericServiceRouteLocation(RouteLocatorBuilder routeLocatorBuilder) {
         return routeLocatorBuilder.routes()
-                .route("user-service", r -> r.path("/users/**")
+                .route("employee-service", r -> r.path("/users/**")
                         .filters(f -> f.rewritePath("/users/?(?<segment>.*)", "/${segment}"))
-                        .uri("lb://user-service"))
+                        .uri("lb://employee-service"))
                 .route("feed-service", r -> r.path("/feeds/**")
                         .filters(f -> f.rewritePath("/feeds/?(?<segment>.*)", "/${segment}"))
                         .uri("lb://feed-service"))

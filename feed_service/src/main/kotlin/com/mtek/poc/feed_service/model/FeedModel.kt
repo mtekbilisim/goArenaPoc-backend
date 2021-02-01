@@ -1,5 +1,7 @@
 package com.mtek.poc.feed_service.model
 
+import com.mtek.poc.feed_service.enums.FeedStatus
+import com.mtek.poc.feed_service.enums.FeedType
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -10,6 +12,7 @@ class FeedModel(
     @Column
     val title: String? = null,
     @Column
+    @Enumerated(EnumType.STRING)
     val postType: FeedType? = FeedType.TEXT,
     @Column
     val likes: Int? = 0,
@@ -25,18 +28,7 @@ class FeedModel(
     @JoinColumn(name = "userId", referencedColumnName = "id")
     val userId: UserModel? = null,
     @Column
-    val status:FeedStatus?=FeedStatus.DRAFT
+    @Enumerated(EnumType.STRING)
+    val status: FeedStatus?= FeedStatus.DRAFT
 )
 
-enum class FeedType(val postType: String) {
-    VIDEO("video"),
-    IMAGE("image"),
-    TEXT("text")
-}
-
-enum class FeedStatus( val status: String) {
-    DRAFT("draft"),
-    WAITING_APPROVAL("waiting_approval"),
-    APPROVED ( "approved"),
-    DECLINED ( "declined")
-}
