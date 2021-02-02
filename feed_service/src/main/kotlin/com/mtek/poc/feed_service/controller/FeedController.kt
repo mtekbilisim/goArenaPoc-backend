@@ -29,11 +29,19 @@ class FeedController() {
     fun all(@RequestParam(name = "keyword", required = false) keyword: String?): ResponseWrap<List<FeedModel>> {
         var result: ResponseWrap<List<FeedModel>>? = null
         if (keyword.isNullOrEmpty())
-            result = ResponseWrap<List<FeedModel>>(feedRepository.findAll(Sort.by("id").ascending()).filter { it.status == FeedStatus.APPROVED })
+            result = ResponseWrap<List<FeedModel>>(
+                feedRepository.findAll(Sort.by("id").ascending()).filter { it.status == FeedStatus.APPROVED })
         else
             result = ResponseWrap<List<FeedModel>>(
                 feedRepository.findByTitleContainsOrderByIdAsc(keyword).filter { it.status == FeedStatus.APPROVED })
         return result
+    }
+
+    //@RolesAllowed("goarena-admins")
+    @GetMapping("/user/{id}")
+    fun allByUsername(@PathVariable(name = "id", required = false) userId: Long?): ResponseWrap<List<FeedModel>> {
+        return ResponseWrap(
+            feedRepository.findByUserInOrderByIdAsc(userId).filter { it.status == FeedStatus.APPROVED })
     }
 
     //@RolesAllowed("goarena-admins")
