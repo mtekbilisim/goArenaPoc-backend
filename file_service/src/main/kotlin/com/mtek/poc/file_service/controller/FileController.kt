@@ -29,29 +29,36 @@ import javax.ws.rs.Produces
 class FileController {
     @Autowired
     private val environment: Environment? = null
+
     @Autowired
     private val fileStorageService: FileStorageService? = null
 
-    @PostMapping("/uploadFile", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE] )
+    @PostMapping(
+        "/uploadFile",
+        consumes = [MediaType.MULTIPART_FORM_DATA_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     fun uploadFile(@RequestParam("file") file: MultipartFile): ResponseWrap<UploadFileResponseModel> {
         val fileName: String = fileStorageService!!.storeFile(file)
         val hostname: String = InetAddress.getLoopbackAddress().hostName
         var host: String = "http://"
-        if (hostname.equals("localhost")) {
-            host += "localhost:8080"
-        } else {
-            host += "turkcell.mtek.me:8080"
-        }
+        host += "turkcell.mtek.me:8080"
         val fileDownloadUri = "$host/downloadFile/$fileName"
-        return ResponseWrap<UploadFileResponseModel>( UploadFileResponseModel(
-            fileName, fileDownloadUri,
-            file.contentType, file.size
-        ))
+        return ResponseWrap<UploadFileResponseModel>(
+            UploadFileResponseModel(
+                fileName, fileDownloadUri,
+                file.contentType, file.size
+            )
+        )
     }
 
-    @PostMapping("/uploadMultipleFiles", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE] )
+    @PostMapping(
+        "/uploadMultipleFiles",
+        consumes = [MediaType.MULTIPART_FORM_DATA_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     fun uploadMultipleFiles(@RequestParam("files") files: Array<MultipartFile>): ResponseWrap<List<UploadFileResponseModel>> {
-        return ResponseWrap<List<UploadFileResponseModel>> (files.map { uploadFile(it).data })
+        return ResponseWrap<List<UploadFileResponseModel>>(files.map { uploadFile(it).data })
     }
 
     @GetMapping("/downloadFile/{fileName:.+}")
