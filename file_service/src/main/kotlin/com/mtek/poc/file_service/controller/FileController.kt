@@ -43,7 +43,7 @@ class FileController {
         val hostname: String = InetAddress.getLoopbackAddress().hostName
         var host: String = "http://"
         host += "turkcell.mtek.me:8080"
-        val fileDownloadUri = "$host/downloadFile/$fileName"
+        val fileDownloadUri = "$host/files/downloadFile/$fileName"
         return ResponseWrap<UploadFileResponseModel>(
             UploadFileResponseModel(
                 fileName, fileDownloadUri,
