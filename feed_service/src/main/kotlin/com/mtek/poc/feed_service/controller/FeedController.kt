@@ -73,6 +73,14 @@ class FeedController() {
         return ResponseWrap<FeedPlainModel>(feedPostRepository.save(entity))
     }
 
+    @PutMapping("/status")
+    fun update(
+        @RequestBody feedPlainModel: List<FeedPlainModel>
+    ): ResponseWrap<List<FeedPlainModel>> {
+        //val entity = feedPostRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+        return ResponseWrap(feedPostRepository.saveAll(feedPlainModel))
+    }
+
     //  @RolesAllowed("goarena-admins")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long) {
