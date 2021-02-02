@@ -1,0 +1,82 @@
+version: "3"
+
+services:
+
+  service_discovery:
+    image: service_discovery:0.0.1-SNAPSHOT
+    networks:
+      - turkcell_poc
+    expose:
+      - "8761"
+    ports:
+      - "8761:8761"
+
+  gateway:
+    image: gateway:0.0.1-SNAPSHOT
+    ports:
+      - "8080:8080"
+    networks:
+      - turkcell_poc
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+    depends_on:
+      - "service_discovery"
+
+  employee_service:
+    image: employee_service:0.0.3-SNAPSHOT
+    expose:
+      - "9003"
+    networks:
+      - turkcell_poc
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+    depends_on:
+      - "service_discovery"
+      - "gateway"
+
+  feed_service:
+    image: feed_service:0.0.1-SNAPSHOT
+    expose:
+      - "9002"
+    networks:
+      - turkcell_poc
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+    depends_on:
+      - "service_discovery"
+      - "gateway"
+
+  dashboard_service:
+    image: dashboard_service:0.0.1-SNAPSHOT
+    expose:
+      - "9006"
+    networks:
+      - turkcell_poc
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+    depends_on:
+      - "service_discovery"
+      - "gateway"
+
+  file_service:
+    image: file_service:0.0.1-SNAPSHOT
+    volumes:
+      - /data/turkcell_poc/upload:/upload
+    expose:
+      - "9004"
+    networks:
+      - turkcell_poc
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+    depends_on:
+      - "service_discovery"
+      - "gateway"
+
+networks:
+  turkcell_poc:
+
