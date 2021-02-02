@@ -41,7 +41,7 @@ import java.util.List;
                 license = @License(
                         name = "MIT Licence",
                         url = "https://www.wikiwand.com/en/MIT_License")),
-        servers = @Server(url = "http://localhost:8080")
+        servers = @Server(url = "http://turkcell.mtek.me:8080")
 )
 public class GoArenaGatewayApplication {
 
