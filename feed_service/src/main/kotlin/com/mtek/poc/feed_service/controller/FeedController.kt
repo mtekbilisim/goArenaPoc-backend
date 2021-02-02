@@ -1,12 +1,14 @@
 package com.mtek.poc.feed_service.controller
 
 import com.mtek.poc.feed_service.configs.ResponseWrap
+import com.mtek.poc.feed_service.enums.FeedStatus
 import com.mtek.poc.feed_service.model.FeedModel
 import com.mtek.poc.feed_service.model.FeedPlainModel
 import com.mtek.poc.feed_service.model.LikeModel
 import com.mtek.poc.feed_service.repository.FeedsPostRepository
 import com.mtek.poc.feed_service.repository.FeedsRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 import org.springframework.data.rest.webmvc.ResourceNotFoundException
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
@@ -24,8 +26,25 @@ class FeedController() {
 
     //@RolesAllowed("goarena-admins")
     @GetMapping("")
-    fun all(): ResponseWrap<List<FeedModel>> {
-        return ResponseWrap<List<FeedModel>>(feedRepository.findAll())
+    fun all(@RequestParam(name = "keyword", required = false) keyword: String?): ResponseWrap<List<FeedModel>> {
+        var result: ResponseWrap<List<FeedModel>>? = null
+        if (keyword.isNullOrEmpty())
+            result = ResponseWrap<List<FeedModel>>(feedRepository.findAll(Sort.by("id").ascending()).filter { it.status == FeedStatus.APPROVED })
+        else
+            result = ResponseWrap<List<FeedModel>>(
+                feedRepository.findByTitleContainsOrderByIdAsc(keyword).filter { it.status == FeedStatus.APPROVED })
+        return result
+    }
+
+    //@RolesAllowed("goarena-admins")
+    @GetMapping("/admin")
+    fun adminAll(@RequestParam(name = "keyword", required = false) keyword: String?): ResponseWrap<List<FeedModel>> {
+        var result: ResponseWrap<List<FeedModel>>? = null
+        if (keyword.isNullOrEmpty())
+            result = ResponseWrap<List<FeedModel>>(feedRepository.findAll(Sort.by("id").ascending()))
+        else
+            result = ResponseWrap<List<FeedModel>>(feedRepository.findByTitleContainsOrderByIdAsc(keyword))
+        return result
     }
 
     //@RolesAllowed("goarena-users")
