@@ -18,19 +18,27 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
+import java.net.InetAddress
 
 @RestController
 class FileController {
+    @Autowired
+    private val environment: Environment? = null
     @Autowired
     private val fileStorageService: FileStorageService? = null
 
     @PostMapping("/uploadFile")
     fun uploadFile(@RequestParam("file") file: MultipartFile): UploadFileResponseModel {
         val fileName: String = fileStorageService!!.storeFile(file)
-        val fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/downloadFile/")
-            .path(fileName)
-            .toUriString()
+        val hostname: String = InetAddress.getLoopbackAddress().hostName
+        var host: String = "http://"
+        if (hostname.equals("localhost")) {
+            host += "localhost:8080"
+        } else {
+            host += "turkcell.mtek.me:8080"
+        }
+        val fileDownloadUri = "$host/downloadFile/$fileName"
         return UploadFileResponseModel(
             fileName, fileDownloadUri,
             file.contentType, file.size
