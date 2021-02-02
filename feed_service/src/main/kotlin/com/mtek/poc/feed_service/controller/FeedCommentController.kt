@@ -1,4 +1,4 @@
-package com.mtek.poc.comment_service.controller
+package com.mtek.poc.feed_service.controller
 
 import com.mtek.poc.feed_service.model.CommentModel
 import com.mtek.poc.feed_service.model.CommentPlainModel
@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 
 @RestController
 @RequestMapping(value = ["/{feedId}/comments"])
-class CommentCommentController {
+class FeedCommentController {
     @Autowired
     private lateinit var commentRepository: CommentRepository
 
