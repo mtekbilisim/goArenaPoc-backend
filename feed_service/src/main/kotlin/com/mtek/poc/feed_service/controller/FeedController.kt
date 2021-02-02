@@ -68,6 +68,7 @@ class FeedController() {
         val entity = feedPostRepository.findById(id).orElseThrow { ResourceNotFoundException() }
         entity.postDate = LocalDateTime.now()
         entity.title = feedPlainModel.title
+        entity.status = feedPlainModel.status
         entity.postType = feedPlainModel.postType
         return ResponseWrap<FeedPlainModel>(feedPostRepository.save(entity))
     }
