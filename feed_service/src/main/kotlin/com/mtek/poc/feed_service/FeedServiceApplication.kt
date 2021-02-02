@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
                 "Turkcell GoArena feed service API",
         contact = Contact(name = "Emrah TOY", url = "https://www.mtekbilisim.com", email = "emrah.toy@mtekbilisim.com"),
         license = License(name = "MIT Licence", url = "https://www.wikiwand.com/en/MIT_License")
-    )
+    ), servers = [Server(url = "http://turkcell.mtek.me:8080/feeds"),Server(url = "http://localhost:8080/feeds")]
 )
 @EnableEurekaClient
 @EnableJpaRepositories
