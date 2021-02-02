@@ -19,7 +19,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient
                 "Turkcell GoArena file service API",
         contact = Contact(name = "Emrah TOY", url = "https://www.mtekbilisim.com", email = "emrah.toy@mtekbilisim.com"),
         license = License(name = "MIT Licence", url = "https://www.wikiwand.com/en/MIT_License")
-    ), servers = [Server(url = "http://localhost:8080/files")]
+    )
 )
 @EnableEurekaClient
 @EnableConfigurationProperties(FileStorageProperties::class)

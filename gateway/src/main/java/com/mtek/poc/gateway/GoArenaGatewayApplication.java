@@ -40,8 +40,8 @@ import java.util.List;
 
                 license = @License(
                         name = "MIT Licence",
-                        url = "https://www.wikiwand.com/en/MIT_License")),
-        servers = @Server(url = "http://turkcell.mtek.me:8080")
+                        url = "https://www.wikiwand.com/en/MIT_License"))
+
 )
 public class GoArenaGatewayApplication {
 
