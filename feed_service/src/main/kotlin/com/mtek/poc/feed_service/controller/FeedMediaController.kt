@@ -1,5 +1,6 @@
 package com.mtek.poc.feed_service.controller
 
+import com.mtek.poc.feed_service.configs.ResponseWrap
 import com.mtek.poc.feed_service.model.MediaModel
 import com.mtek.poc.feed_service.repository.MediaRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,8 +16,8 @@ class FeedMediaController {
 
     //@RolesAllowed("goarena-admins")
     @GetMapping("")
-    fun all(@PathVariable("feedId") feedId: Long): List<MediaModel> {
-        return mediaRepository.findByFeedId(feedId)
+    fun all(@PathVariable("feedId") feedId: Long): ResponseWrap<List<MediaModel>> {
+        return ResponseWrap<List<MediaModel>>(mediaRepository.findByFeedId(feedId))
     }
 
     //@RolesAllowed("goarena-users")
@@ -24,10 +25,10 @@ class FeedMediaController {
     fun create(
         @RequestBody mediaModel: MediaModel,
         @PathVariable("feedId") feedId: Long
-    ): MediaModel {
+    ): ResponseWrap<MediaModel> {
         //new KeycloakClientConfig().keycloak().tokenManager().getAccessToken()
-        mediaModel.feedId=feedId
-        return mediaRepository.save(mediaModel)
+        mediaModel.feedId = feedId
+        return ResponseWrap<MediaModel>(mediaRepository.save(mediaModel))
     }
 
     //  @RolesAllowed("goarena-admins")

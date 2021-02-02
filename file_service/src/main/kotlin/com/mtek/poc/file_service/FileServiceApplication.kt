@@ -10,6 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
+import org.springframework.context.annotation.Bean
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+
+
+
 
 @SpringBootApplication
 @OpenAPIDefinition(

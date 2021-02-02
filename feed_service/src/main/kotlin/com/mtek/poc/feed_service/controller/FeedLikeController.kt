@@ -1,7 +1,9 @@
 package com.mtek.poc.feed_service.controller
 
+import com.mtek.poc.feed_service.configs.ResponseWrap
 import com.mtek.poc.feed_service.model.LikeModel
 import com.mtek.poc.feed_service.model.LikePlainModel
+import com.mtek.poc.feed_service.model.MediaModel
 import com.mtek.poc.feed_service.repository.LikePostRepository
 import com.mtek.poc.feed_service.repository.LikeRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,8 +22,8 @@ class FeedLikeController {
 
     //@RolesAllowed("goarena-admins")
     @GetMapping("")
-    fun all(@PathVariable("feedId") feedId: Long): List<LikeModel> {
-        return likeRepository.findByFeedId(feedId)
+    fun all(@PathVariable("feedId") feedId: Long): ResponseWrap<List<LikeModel>> {
+        return ResponseWrap<List<LikeModel>>(likeRepository.findByFeedId(feedId))
     }
 
     //@RolesAllowed("goarena-users")
@@ -29,23 +31,26 @@ class FeedLikeController {
     fun create(
         @RequestBody likePlainModel: LikePlainModel,
         @PathVariable("feedId") feedId: Long
-    ): LikePlainModel {
+    ): ResponseWrap<LikePlainModel> {
         //new KeycloakClientConfig().keycloak().tokenManager().getAccessToken()
-        likePlainModel.feedId=feedId
-        return likePostRepository.save(likePlainModel)
+        likePlainModel.feedId = feedId
+        return ResponseWrap<LikePlainModel>(likePostRepository.save(likePlainModel))
     }
 
     @GetMapping("/{id}")
-    operator fun get(@PathVariable("id") id: Long): LikeModel? {
-        return likeRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+    operator fun get(@PathVariable("id") id: Long): ResponseWrap<LikeModel>? {
+        return ResponseWrap<LikeModel>(likeRepository.findById(id).orElseThrow { ResourceNotFoundException() })
     }
 
     //@RolesAllowed("goarena-users")
     @PutMapping("/{id}")
-    fun update(@PathVariable("id") id: Long, @RequestBody likePlainModel: LikePlainModel): LikePlainModel {
+    fun update(
+        @PathVariable("id") id: Long,
+        @RequestBody likePlainModel: LikePlainModel
+    ): ResponseWrap<LikePlainModel> {
         val entity = likePostRepository.findById(id).orElseThrow { ResourceNotFoundException() }
         entity.postDate = LocalDateTime.now()
-        return likePostRepository.save(entity)
+        return ResponseWrap<LikePlainModel>(likePostRepository.save(entity))
     }
 
     //  @RolesAllowed("goarena-admins")

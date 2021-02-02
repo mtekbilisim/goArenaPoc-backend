@@ -1,5 +1,6 @@
 package com.mtek.poc.employee_service.controller
 
+import com.mtek.poc.employee_service.configs.ResponseWrap
 import com.mtek.poc.employee_service.model.EmployeeModel
 import com.mtek.poc.employee_service.model.EmployeeWithShopModel
 import com.mtek.poc.employee_service.repository.EmployeeGetRepository
@@ -23,20 +24,20 @@ class EmployeeController() {
 
     // @RolesAllowed("goarena-admins")
     @GetMapping("")
-    fun all(): MutableIterable<EmployeeWithShopModel> {
-        return employeeGetRepository.findAll()
+    fun all(): ResponseWrap<List<EmployeeWithShopModel>> {
+        return ResponseWrap(employeeGetRepository.findAll())
     }
 
     //  @RolesAllowed("goarena-users")
     @PostMapping("")
-    fun create(@RequestBody userModel: EmployeeModel, @PathVariable("shopId") shopId:Long): EmployeeModel {
+    fun create(@RequestBody userModel: EmployeeModel, @PathVariable("shopId") shopId:Long): ResponseWrap<EmployeeModel> {
         userModel .shopId=shopId
-        return employeePostRepository.save(userModel)
+        return ResponseWrap(employeePostRepository.save(userModel))
     }
 
     @GetMapping("/{id}")
-    fun get(@PathVariable("id") id: Long): EmployeeWithShopModel? {
-        return employeeGetRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+    fun get(@PathVariable("id") id: Long): ResponseWrap<EmployeeWithShopModel>? {
+        return ResponseWrap(employeeGetRepository.findById(id).orElseThrow { ResourceNotFoundException() })
 
     }
 
@@ -45,13 +46,13 @@ class EmployeeController() {
     fun update(
         @PathVariable("id") id: Long,
         @Valid @RequestBody userModel: EmployeeModel
-    ): EmployeeModel? {
+    ): ResponseWrap<EmployeeModel>? {
         val entity = employeePostRepository.findById(id).orElseThrow { ResourceNotFoundException() }
         entity.first_name = userModel.first_name
         entity.last_name = userModel.last_name
         entity.username = userModel.username
         entity.avatar = userModel.avatar
-        return employeePostRepository.save(entity)
+        return ResponseWrap(employeePostRepository.save(entity))
     }
 
     //  @RolesAllowed("goarena-admins")

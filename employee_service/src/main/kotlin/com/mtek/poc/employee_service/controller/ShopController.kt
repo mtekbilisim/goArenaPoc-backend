@@ -1,5 +1,6 @@
 package com.mtek.poc.employee_service.controller
 
+import com.mtek.poc.employee_service.configs.ResponseWrap
 import com.mtek.poc.employee_service.model.ShopModel
 import com.mtek.poc.employee_service.model.ShopWithEmployeesModel
 import com.mtek.poc.employee_service.repository.ShopGetRepository
@@ -23,29 +24,29 @@ class ShopController() {
 
     // @RolesAllowed("goarena-admins")
     @GetMapping("")
-    fun all(): List<ShopWithEmployeesModel> {
-        return shopGetRepository.findAll()
+    fun all(): ResponseWrap<List<ShopWithEmployeesModel>> {
+        return ResponseWrap(shopGetRepository.findAll())
     }
 
     //  @RolesAllowed("goarena-shops")
     @PostMapping("")
-    fun create(@RequestBody shopModel: ShopModel): ShopModel {
+    fun create(@RequestBody shopModel: ShopModel): ResponseWrap<ShopModel> {
 
-        return shopPostRepository.save(shopModel)
+        return ResponseWrap(shopPostRepository.save(shopModel))
     }
 
     @GetMapping("/{id}")
-    fun get(@PathVariable("id") id: Long): ShopWithEmployeesModel? {
-        return shopGetRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+    fun get(@PathVariable("id") id: Long): ResponseWrap<ShopWithEmployeesModel>? {
+        return ResponseWrap(shopGetRepository.findById(id).orElseThrow { ResourceNotFoundException() })
 
     }
 
     // @RolesAllowed("goarena-shops")
     @PutMapping("/{id}")
-    fun update(@PathVariable("id") id: Long, @Valid @RequestBody shopModel: ShopModel): ShopModel? {
+    fun update(@PathVariable("id") id: Long, @Valid @RequestBody shopModel: ShopModel): ResponseWrap<ShopModel>? {
         val entity: ShopModel = shopPostRepository.findById(id).orElseThrow { ResourceNotFoundException() }
         entity.name = shopModel.name
-        return shopPostRepository.save(entity)
+        return ResponseWrap(shopPostRepository.save(entity))
     }
 
     //  @RolesAllowed("goarena-admins")

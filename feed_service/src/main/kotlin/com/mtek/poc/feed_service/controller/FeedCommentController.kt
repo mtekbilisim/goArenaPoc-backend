@@ -1,7 +1,9 @@
 package com.mtek.poc.feed_service.controller
 
+import com.mtek.poc.feed_service.configs.ResponseWrap
 import com.mtek.poc.feed_service.model.CommentModel
 import com.mtek.poc.feed_service.model.CommentPlainModel
+import com.mtek.poc.feed_service.model.FeedModel
 import com.mtek.poc.feed_service.repository.CommentPostRepository
 import com.mtek.poc.feed_service.repository.CommentRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,8 +22,8 @@ class FeedCommentController {
 
     //@RolesAllowed("goarena-admins")
     @GetMapping("")
-    fun all(@PathVariable("feedId") feedId: Long): List<CommentModel> {
-        return commentRepository.findByFeedId(feedId)
+    fun all(@PathVariable("feedId") feedId: Long): ResponseWrap<List<CommentModel>> {
+        return ResponseWrap<List<CommentModel>>(commentRepository.findByFeedId(feedId))
     }
 
     //@RolesAllowed("goarena-users")
@@ -29,24 +31,27 @@ class FeedCommentController {
     fun create(
         @RequestBody commentPlainModel: CommentPlainModel,
         @PathVariable("feedId") feedId: Long
-    ): CommentPlainModel {
+    ): ResponseWrap<CommentPlainModel> {
         //new KeycloakClientConfig().keycloak().tokenManager().getAccessToken()
-        commentPlainModel.feedId=feedId
-        return commentPostRepository.save(commentPlainModel)
+        commentPlainModel.feedId = feedId
+        return ResponseWrap<CommentPlainModel>(commentPostRepository.save(commentPlainModel))
     }
 
     @GetMapping("/{id}")
-    operator fun get(@PathVariable("id") id: Long): CommentModel? {
-        return commentRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+    operator fun get(@PathVariable("id") id: Long): ResponseWrap<CommentModel>? {
+        return ResponseWrap(commentRepository.findById(id).orElseThrow { ResourceNotFoundException() })
     }
 
     //@RolesAllowed("goarena-users")
     @PutMapping("/{id}")
-    fun update(@PathVariable("id") id: Long, @RequestBody commentPlainModel: CommentPlainModel): CommentPlainModel {
+    fun update(
+        @PathVariable("id") id: Long,
+        @RequestBody commentPlainModel: CommentPlainModel
+    ): ResponseWrap<CommentPlainModel> {
         val entity = commentPostRepository.findById(id).orElseThrow { ResourceNotFoundException() }
         entity.postDate = LocalDateTime.now()
         entity.comment = commentPlainModel.comment
-        return commentPostRepository.save(entity)
+        return ResponseWrap(commentPostRepository.save(entity))
     }
 
     //  @RolesAllowed("goarena-admins")

@@ -1,5 +1,6 @@
 package com.mtek.poc.dashboard_service.controller
 
+import com.mtek.poc.dashboard_service.configs.ResponseWrap
 import com.mtek.poc.dashboard_service.model.ExpectationModel
 import com.mtek.poc.dashboard_service.repository.ExpectationRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,27 +15,27 @@ class ExpectationController {
 
     //@RolesAllowed("goarena-admins")
     @GetMapping("")
-    fun all(): MutableList<ExpectationModel> {
-        return expectationRepository.findAll()
+    fun all(): ResponseWrap<List<ExpectationModel>> {
+        return ResponseWrap(expectationRepository.findAll())
     }
 
     //@RolesAllowed("goarena-users")
     @PostMapping("")
-    fun create(@RequestBody expectationModel: ExpectationModel): ExpectationModel {
+    fun create(@RequestBody expectationModel: ExpectationModel): ResponseWrap<ExpectationModel> {
         //new KeycloakClientConfig().keycloak().tokenManager().getAccessToken()
-        return expectationRepository.save(expectationModel)
+        return ResponseWrap(expectationRepository.save(expectationModel))
     }
 
     @GetMapping("/{id}")
-    operator fun get(@PathVariable("id") id: Long): ExpectationModel? {
-        return expectationRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+    operator fun get(@PathVariable("id") id: Long): ResponseWrap<ExpectationModel>? {
+        return ResponseWrap(expectationRepository.findById(id).orElseThrow { ResourceNotFoundException() })
     }
 
     //@RolesAllowed("goarena-users")
     @PutMapping("/{id}")
-    fun update(@PathVariable("id") id: Long, @RequestBody expectationModel: ExpectationModel): ExpectationModel {
+    fun update(@PathVariable("id") id: Long, @RequestBody expectationModel: ExpectationModel): ResponseWrap<ExpectationModel> {
         val entity= expectationRepository.findById(id).orElseThrow { ResourceNotFoundException() }
-        return expectationRepository.save(entity)
+        return ResponseWrap(expectationRepository.save(entity))
     }
 
     //  @RolesAllowed("goarena-admins")

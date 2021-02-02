@@ -1,5 +1,6 @@
 package com.mtek.poc.file_service.controller
 
+import com.mtek.poc.file_service.config.ResponseWrap
 import com.mtek.poc.file_service.model.UploadFileResponseModel
 import com.mtek.poc.file_service.service.FileStorageService
 import org.slf4j.Logger
@@ -32,7 +33,7 @@ class FileController {
     private val fileStorageService: FileStorageService? = null
 
     @PostMapping("/uploadFile", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE] )
-    fun uploadFile(@RequestParam("file") file: MultipartFile): UploadFileResponseModel {
+    fun uploadFile(@RequestParam("file") file: MultipartFile): ResponseWrap<UploadFileResponseModel> {
         val fileName: String = fileStorageService!!.storeFile(file)
         val hostname: String = InetAddress.getLoopbackAddress().hostName
         var host: String = "http://"
@@ -42,15 +43,15 @@ class FileController {
             host += "turkcell.mtek.me:8080"
         }
         val fileDownloadUri = "$host/downloadFile/$fileName"
-        return UploadFileResponseModel(
+        return ResponseWrap<UploadFileResponseModel>( UploadFileResponseModel(
             fileName, fileDownloadUri,
             file.contentType, file.size
-        )
+        ))
     }
 
     @PostMapping("/uploadMultipleFiles", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE] )
-    fun uploadMultipleFiles(@RequestParam("files") files: Array<MultipartFile>): List<UploadFileResponseModel> {
-        return files.map { uploadFile(it) }
+    fun uploadMultipleFiles(@RequestParam("files") files: Array<MultipartFile>): ResponseWrap<List<UploadFileResponseModel>> {
+        return ResponseWrap<List<UploadFileResponseModel>> (files.map { uploadFile(it).data })
     }
 
     @GetMapping("/downloadFile/{fileName:.+}")
