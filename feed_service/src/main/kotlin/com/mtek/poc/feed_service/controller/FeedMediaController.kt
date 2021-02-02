@@ -31,6 +31,18 @@ class FeedMediaController {
         return ResponseWrap<MediaModel>(mediaRepository.save(mediaModel))
     }
 
+    //@RolesAllowed("goarena-users")
+    @PostMapping("/multi")
+    fun createMulti(
+        @RequestBody mediaModel: ArrayList<MediaModel>,
+        @PathVariable("feedId") feedId: Long
+    ): ResponseWrap<List<MediaModel>> {
+        //new KeycloakClientConfig().keycloak().tokenManager().getAccessToken()
+        mediaModel.map { it.feedId = feedId }
+        //mediaModel.feedId = feedId
+        return ResponseWrap(mediaRepository.saveAll(mediaModel))
+    }
+
     //  @RolesAllowed("goarena-admins")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long) {
