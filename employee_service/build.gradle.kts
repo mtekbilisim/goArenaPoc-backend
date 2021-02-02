@@ -28,8 +28,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.5.3")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.5.3")
 
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.keycloak:keycloak-spring-boot-starter")
+//    implementation("org.springframework.boot:spring-boot-starter-security")
+//    implementation("org.keycloak:keycloak-spring-boot-starter")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -48,7 +48,7 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-        mavenBom("org.keycloak.bom:keycloak-adapter-bom:${property("keycloakVersion")}")
+//        mavenBom("org.keycloak.bom:keycloak-adapter-bom:${property("keycloakVersion")}")
     }
 }
 
