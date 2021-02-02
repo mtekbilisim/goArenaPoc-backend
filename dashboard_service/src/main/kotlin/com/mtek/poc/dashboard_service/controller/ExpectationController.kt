@@ -11,12 +11,24 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(value = ["/expectations"])
 class ExpectationController {
     @Autowired
-    private lateinit var expectationRepository : ExpectationRepository
+    private lateinit var expectationRepository: ExpectationRepository
 
     //@RolesAllowed("goarena-admins")
     @GetMapping("")
-    fun all(): ResponseWrap<List<ExpectationModel>> {
-        return ResponseWrap(expectationRepository.findAll())
+    fun all(
+        @RequestParam(name = "employee", required = false) employee: Long?,
+        @RequestParam(name = "shop", required = false) shop: Long?
+    ): ResponseWrap<List<ExpectationModel>> {
+        var result: ResponseWrap<List<ExpectationModel>>? = null
+
+        if (shop != null && employee == null) {
+            result = ResponseWrap(expectationRepository.findAllByShopId(shop))
+        } else if (shop == null && employee != null) {
+            result = ResponseWrap(expectationRepository.findAllByUserId(employee))
+        } else {
+            result = ResponseWrap(expectationRepository.findAll())
+        }
+        return result
     }
 
     //@RolesAllowed("goarena-users")
@@ -33,8 +45,11 @@ class ExpectationController {
 
     //@RolesAllowed("goarena-users")
     @PutMapping("/{id}")
-    fun update(@PathVariable("id") id: Long, @RequestBody expectationModel: ExpectationModel): ResponseWrap<ExpectationModel> {
-        val entity= expectationRepository.findById(id).orElseThrow { ResourceNotFoundException() }
+    fun update(
+        @PathVariable("id") id: Long,
+        @RequestBody expectationModel: ExpectationModel
+    ): ResponseWrap<ExpectationModel> {
+        val entity = expectationRepository.findById(id).orElseThrow { ResourceNotFoundException() }
         return ResponseWrap(expectationRepository.save(entity))
     }
 
