@@ -20,6 +20,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import java.net.InetAddress
+import javax.servlet.annotation.MultipartConfig
+import javax.ws.rs.Consumes
+import javax.ws.rs.Produces
 
 @RestController
 class FileController {
@@ -28,7 +31,7 @@ class FileController {
     @Autowired
     private val fileStorageService: FileStorageService? = null
 
-    @PostMapping("/uploadFile")
+    @PostMapping("/uploadFile", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE] )
     fun uploadFile(@RequestParam("file") file: MultipartFile): UploadFileResponseModel {
         val fileName: String = fileStorageService!!.storeFile(file)
         val hostname: String = InetAddress.getLoopbackAddress().hostName
@@ -45,7 +48,7 @@ class FileController {
         )
     }
 
-    @PostMapping("/uploadMultipleFiles")
+    @PostMapping("/uploadMultipleFiles", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE] )
     fun uploadMultipleFiles(@RequestParam("files") files: Array<MultipartFile>): List<UploadFileResponseModel> {
         return files.map { uploadFile(it) }
     }
