@@ -2,7 +2,7 @@ version: "3"
 
 services:
 
-  service_discovery:
+  servicediscovery:
     image: service_discovery:0.0.1-SNAPSHOT
     networks:
       - turkcell_poc
@@ -10,6 +10,9 @@ services:
       - "8761"
     ports:
       - "8761:8761"
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://servicediscovery:8761/eureka
 
   gateway:
     image: gateway:0.0.1-SNAPSHOT
@@ -19,11 +22,11 @@ services:
       - turkcell_poc
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+        -DEUREKA_SERVER=http://servicediscovery:8761/eureka
     depends_on:
-      - "service_discovery"
+      - "servicediscovery"
 
-  employee_service:
+  employees:
     image: employee_service:0.0.3-SNAPSHOT
     expose:
       - "9003"
@@ -31,12 +34,12 @@ services:
       - turkcell_poc
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+        -DEUREKA_SERVER=http://servicediscovery:8761/eureka
     depends_on:
-      - "service_discovery"
+      - "servicediscovery"
       - "gateway"
 
-  feed_service:
+  feeds:
     image: feed_service:0.0.1-SNAPSHOT
     expose:
       - "9002"
@@ -44,12 +47,12 @@ services:
       - turkcell_poc
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+        -DEUREKA_SERVER=http://servicediscovery:8761/eureka
     depends_on:
-      - "service_discovery"
+      - "servicediscovery"
       - "gateway"
 
-  dashboard_service:
+  dashboard:
     image: dashboard_service:0.0.1-SNAPSHOT
     expose:
       - "9006"
@@ -57,12 +60,12 @@ services:
       - turkcell_poc
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+        -DEUREKA_SERVER=http://servicediscovery:8761/eureka
     depends_on:
-      - "service_discovery"
+      - "servicediscovery"
       - "gateway"
 
-  file_service:
+  files:
     image: file_service:0.0.1-SNAPSHOT
     volumes:
       - /data/turkcell_poc/upload:/upload
@@ -72,9 +75,9 @@ services:
       - turkcell_poc
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://service_discovery:8761/eureka
+        -DEUREKA_SERVER=http://servicediscovery:8761/eureka
     depends_on:
-      - "service_discovery"
+      - "servicediscovery"
       - "gateway"
 
 networks:
