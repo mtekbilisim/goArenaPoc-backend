@@ -10,10 +10,13 @@ cd ..
 cd  file_service
 ./gradlew bootBuildImage
 cd ..
-cd  gateway 
-./gradlew bootBuildImage
-cd ..
-cd  service_discovery
-./gradlew bootBuildImage
-cd ..
+ cd  gateway 
+ ./gradlew bootBuildImage
+ cd ..
+ cd  service_discovery
+ ./gradlew bootBuildImage
+ cd ..
+ cd  auth_service
+ ./gradlew bootBuildImage
+ cd ..
 

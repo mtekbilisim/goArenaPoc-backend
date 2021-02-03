@@ -2,6 +2,13 @@ version: "3"
 
 services:
 
+  redis:
+    image: "redis:alpine"
+    expose:
+      - "6379"
+    networks:
+      - turkcell_poc
+
   servicediscovery:
     image: service_discovery:0.0.1-SNAPSHOT
     networks:
@@ -13,6 +20,8 @@ services:
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://servicediscovery:8761/eureka
+    depends_on:
+      - "redis"
 
   gateway:
     image: gateway:0.0.1-SNAPSHOT
@@ -24,6 +33,7 @@ services:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://servicediscovery:8761/eureka
     depends_on:
+      - "redis"
       - "servicediscovery"
 
   employees:
@@ -79,6 +89,20 @@ services:
     depends_on:
       - "servicediscovery"
       - "gateway"
+
+  auth:
+    image: auth_service:0.0.1-SNAPSHOT
+    expose:
+      - "9005"
+    networks:
+      - turkcell_poc
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://servicediscovery:8761/eureka
+    depends_on:
+      - "servicediscovery"
+      - "gateway"
+
 
 networks:
   turkcell_poc:
