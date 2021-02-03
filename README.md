@@ -31,7 +31,7 @@
 <h3 align="center">Turkcell GoArena POC</h3>
 
   <p align="center">
-    Java/Spring backed microservices architecture
+    Kotlin/Java/Spring backed microservices architecture
     <br />
     <a href="http://www.mtekbilisim.com"><strong>MTek Bilişim A.Ş. »</strong></a>
     <br />
