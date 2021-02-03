@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import java.lang.Exception
 
 
@@ -44,5 +46,13 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
                         SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
                     )
             )
+    }
+    @Bean
+    fun corsConfigurer(): WebMvcConfigurer? {
+        return object : WebMvcConfigurer {
+            override fun addCorsMappings(registry: CorsRegistry) {
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*")
+            }
+        }
     }
 }
