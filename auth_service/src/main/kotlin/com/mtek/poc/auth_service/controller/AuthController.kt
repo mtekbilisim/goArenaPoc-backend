@@ -7,18 +7,19 @@ import com.mtek.poc.auth_service.model.Login
 import com.mtek.poc.auth_service.model.Register
 import com.mtek.poc.auth_service.repository.UserRepository
 import com.mtek.poc.auth_service.service.Okta
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
+
 
 @RestController
 @RequestMapping(value = ["/"])
-class Auth() {
+class AuthController() {
 
     @Autowired
     lateinit var okta: Okta
@@ -57,12 +58,16 @@ class Auth() {
 //        return okta.logout(session_id)
 //    }
 //
-
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/me")
-    fun me(@AuthenticationPrincipal user: OidcUser?): ResponseWrap<EmployeeModel> {
+    fun me(): ResponseWrap<EmployeeModel> {
         var r: Jwt = SecurityContextHolder.getContext().authentication.principal as Jwt
-        var employee = userRepository.findByEmail(r.claims.get("sub").toString())
-        return ResponseWrap(employee)
+        try {
+            var employee = userRepository.findFirstByEmail(r.claims.get("sub").toString())
+            return ResponseWrap(employee)
+        } catch(e:Exception){
+            throw ResponseStatusException(HttpStatus.NOT_FOUND,"Kullanıcı kaydı bulunmuyor")
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import com.mtek.poc.feed_service.model.FeedModel
 import com.mtek.poc.feed_service.model.FeedPlainModel
 import com.mtek.poc.feed_service.repository.FeedsPostRepository
 import com.mtek.poc.feed_service.repository.FeedsRepository
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
 import org.springframework.data.rest.webmvc.ResourceNotFoundException
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 //import com.mtek.poc.users_service.configs.KeycloakClientConfig;
+@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping(value = ["/"])
 class FeedController() {
@@ -23,6 +25,7 @@ class FeedController() {
     private lateinit var feedPostRepository: FeedsPostRepository
 
     //@RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("")
     fun all(@RequestParam(name = "keyword", required = false) keyword: String?): ResponseWrap<List<FeedModel>> {
         var result: ResponseWrap<List<FeedModel>>? = null
@@ -36,6 +39,7 @@ class FeedController() {
     }
 
     //@RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/tagged/{tag}")
     fun allByTagName(@PathVariable(name = "tag", required = true) tag: String): ResponseWrap<List<FeedModel>> {
         return ResponseWrap(
@@ -43,6 +47,7 @@ class FeedController() {
     }
 
     //@RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/user/{id}")
     fun allByUsername(@PathVariable(name = "id", required = false) userId: Long?): ResponseWrap<List<FeedModel>> {
         return ResponseWrap(
@@ -50,6 +55,7 @@ class FeedController() {
     }
 
     //@RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/admin")
     fun adminAll(@RequestParam(name = "keyword", required = false) keyword: String?): ResponseWrap<List<FeedModel>> {
         var result: ResponseWrap<List<FeedModel>>? = null
@@ -61,6 +67,7 @@ class FeedController() {
     }
 
     //@RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/admin/tagged/{tag}")
     fun allByTagNameAdmin(@PathVariable(name = "tag", required = true) tag: String): ResponseWrap<List<FeedModel>> {
         return ResponseWrap(
@@ -69,18 +76,21 @@ class FeedController() {
     }
 
     //@RolesAllowed("goarena-users")
+    @SecurityRequirement(name = "bearer-key")
     @PostMapping("")
     fun create(@RequestBody feedPlainModel: FeedPlainModel): ResponseWrap<FeedPlainModel> {
         //new KeycloakClientConfig().keycloak().tokenManager().getAccessToken()
         return ResponseWrap<FeedPlainModel>(feedPostRepository.save(feedPlainModel))
     }
 
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/{id}")
     operator fun get(@PathVariable("id") id: Long): ResponseWrap<FeedModel>? {
         return ResponseWrap<FeedModel>(feedRepository.findById(id).orElseThrow { ResourceNotFoundException() })
     }
 
     //@RolesAllowed("goarena-users")
+    @SecurityRequirement(name = "bearer-key")
     @PutMapping("/{id}")
     fun update(
         @PathVariable("id") id: Long,
@@ -94,6 +104,7 @@ class FeedController() {
         return ResponseWrap<FeedPlainModel>(feedPostRepository.save(entity))
     }
 
+    @SecurityRequirement(name = "bearer-key")
     @PutMapping("/status")
     fun update(
         @RequestBody feedPlainModel: List<FeedPlainModel>
@@ -103,6 +114,7 @@ class FeedController() {
     }
 
     //  @RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long) {
         return feedRepository.deleteById(id)

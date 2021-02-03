@@ -6,11 +6,13 @@ import com.mtek.poc.feed_service.model.CommentPlainModel
 import com.mtek.poc.feed_service.model.FeedModel
 import com.mtek.poc.feed_service.repository.CommentPostRepository
 import com.mtek.poc.feed_service.repository.CommentRepository
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.rest.webmvc.ResourceNotFoundException
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
+@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping(value = ["/{feedId}/comments"])
 class FeedCommentController {
@@ -21,12 +23,14 @@ class FeedCommentController {
     private lateinit var commentPostRepository: CommentPostRepository
 
     //@RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("")
     fun all(@PathVariable("feedId") feedId: Long): ResponseWrap<List<CommentModel>> {
         return ResponseWrap<List<CommentModel>>(commentRepository.findByFeedId(feedId))
     }
 
     //@RolesAllowed("goarena-users")
+    @SecurityRequirement(name = "bearer-key")
     @PostMapping("")
     fun create(
         @RequestBody commentPlainModel: CommentPlainModel,
@@ -37,12 +41,14 @@ class FeedCommentController {
         return ResponseWrap<CommentPlainModel>(commentPostRepository.save(commentPlainModel))
     }
 
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/{id}")
     operator fun get(@PathVariable("id") id: Long): ResponseWrap<CommentModel>? {
         return ResponseWrap(commentRepository.findById(id).orElseThrow { ResourceNotFoundException() })
     }
 
     //@RolesAllowed("goarena-users")
+    @SecurityRequirement(name = "bearer-key")
     @PutMapping("/{id}")
     fun update(
         @PathVariable("id") id: Long,
@@ -55,6 +61,7 @@ class FeedCommentController {
     }
 
     //  @RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long) {
         return commentRepository.deleteById(id)

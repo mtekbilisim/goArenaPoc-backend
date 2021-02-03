@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 
 
 @SpringBootApplication
@@ -21,6 +23,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
         license = License(name = "MIT Licence", url = "https://www.wikiwand.com/en/MIT_License")
     ), servers = [Server(url="http://turkcell.mtek.me:8080/employees"),Server(url = "http://localhost:8080/employees")]
 )
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableEurekaClient
 @EnableJpaRepositories
 

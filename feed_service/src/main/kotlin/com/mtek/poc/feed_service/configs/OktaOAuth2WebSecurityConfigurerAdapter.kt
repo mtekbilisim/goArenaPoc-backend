@@ -1,4 +1,4 @@
-package com.mtek.poc.auth_service.configs
+package com.mtek.poc.feed_service.configs
 import com.okta.spring.boot.oauth.Okta
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
@@ -18,8 +18,6 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-            .antMatchers("/token").permitAll()
-            .antMatchers("/signin").permitAll()
             .antMatchers("/api/**").permitAll()
             .antMatchers("/swagger-ui/**").permitAll()
             .anyRequest().authenticated()

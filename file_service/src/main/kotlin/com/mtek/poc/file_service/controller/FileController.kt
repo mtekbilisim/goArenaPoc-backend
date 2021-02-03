@@ -3,6 +3,8 @@ package com.mtek.poc.file_service.controller
 import com.mtek.poc.file_service.config.ResponseWrap
 import com.mtek.poc.file_service.model.UploadFileResponseModel
 import com.mtek.poc.file_service.service.FileStorageService
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.RestController
@@ -33,6 +35,7 @@ class FileController {
     @Autowired
     private val fileStorageService: FileStorageService? = null
 
+    @SecurityRequirement(name = "bearer-key")
     @PostMapping(
         "/uploadFile",
         consumes = [MediaType.MULTIPART_FORM_DATA_VALUE],
@@ -52,6 +55,7 @@ class FileController {
         )
     }
 
+    @SecurityRequirement(name = "bearer-key")
     @PostMapping(
         "/uploadMultipleFiles",
         consumes = [MediaType.MULTIPART_FORM_DATA_VALUE],
@@ -60,6 +64,7 @@ class FileController {
     fun uploadMultipleFiles(@RequestParam("files") files: Array<MultipartFile>): ResponseWrap<List<UploadFileResponseModel>> {
         return ResponseWrap<List<UploadFileResponseModel>>(files.map { uploadFile(it).data })
     }
+
 
     @GetMapping("/downloadFile/{fileName:.+}")
     fun downloadFile(@PathVariable fileName: String, request: HttpServletRequest): ResponseEntity<Resource> {

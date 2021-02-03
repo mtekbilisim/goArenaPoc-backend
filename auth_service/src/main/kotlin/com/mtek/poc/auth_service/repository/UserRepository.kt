@@ -4,5 +4,5 @@ import com.mtek.poc.auth_service.model.EmployeeModel
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserRepository : JpaRepository<EmployeeModel, Long> {
-    fun findByEmail(email: String) : EmployeeModel
+    fun findFirstByEmail(email: String) : EmployeeModel
 }

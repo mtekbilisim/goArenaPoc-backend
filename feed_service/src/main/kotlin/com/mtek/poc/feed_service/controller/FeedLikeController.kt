@@ -6,11 +6,13 @@ import com.mtek.poc.feed_service.model.LikePlainModel
 import com.mtek.poc.feed_service.model.MediaModel
 import com.mtek.poc.feed_service.repository.LikePostRepository
 import com.mtek.poc.feed_service.repository.LikeRepository
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.rest.webmvc.ResourceNotFoundException
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
+@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping(value = ["/{feedId}/likes"])
 class FeedLikeController {
@@ -21,12 +23,14 @@ class FeedLikeController {
     private lateinit var likePostRepository: LikePostRepository
 
     //@RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("")
     fun all(@PathVariable("feedId") feedId: Long): ResponseWrap<List<LikeModel>> {
         return ResponseWrap<List<LikeModel>>(likeRepository.findByFeedId(feedId))
     }
 
     //@RolesAllowed("goarena-users")
+    @SecurityRequirement(name = "bearer-key")
     @PostMapping("")
     fun create(
         @RequestBody likePlainModel: LikePlainModel,
@@ -38,11 +42,13 @@ class FeedLikeController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "bearer-key")
     operator fun get(@PathVariable("id") id: Long): ResponseWrap<LikeModel>? {
         return ResponseWrap<LikeModel>(likeRepository.findById(id).orElseThrow { ResourceNotFoundException() })
     }
 
     //@RolesAllowed("goarena-users")
+    @SecurityRequirement(name = "bearer-key")
     @PutMapping("/{id}")
     fun update(
         @PathVariable("id") id: Long,
@@ -54,6 +60,7 @@ class FeedLikeController {
     }
 
     //  @RolesAllowed("goarena-admins")
+    @SecurityRequirement(name = "bearer-key")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long) {
         return likeRepository.deleteById(id)
