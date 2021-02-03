@@ -66,6 +66,9 @@ public class GoArenaGatewayApplication {
                 .route("dashboard-service", r -> r.path("/dashboard/**")
                         .filters(f -> f.rewritePath("/dashboard/?(?<segment>.*)", "/${segment}"))
                         .uri("lb://dashboard-service"))
+                .route("auth-service", r -> r.path("/authentication/**")
+                        .filters(f -> f.rewritePath("/authentication/?(?<segment>.*)", "/${segment}"))
+                        .uri("lb://auth-service"))
                 // open-api documentation
                 .route("open-api", r -> r.path("/api/**")
                         .filters(f -> f.rewritePath("/api/?(?<segment>.*)", "/${segment}/api"))
@@ -91,6 +94,9 @@ public class GoArenaGatewayApplication {
 
         swaggerUiConfigParameters.addGroup("dashboard");
         groups.add(GroupedOpenApi.builder().pathsToMatch("/dashboard/**").group("dashboard").build());
+
+        swaggerUiConfigParameters.addGroup("authentication");
+        groups.add(GroupedOpenApi.builder().pathsToMatch("/authentication/**").group("authentication").build());
 
 
         return groups;
