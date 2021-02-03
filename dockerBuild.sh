@@ -20,3 +20,4 @@ cd ..
  ./gradlew bootBuildImage
  cd ..
 
+docker-compose up -d --remove-orphans
