@@ -11,5 +11,7 @@ class ChartModel(
     @Column
     var sales: Long = 0,
     @Column
-    var productGroup: String? = null
+    var productGroup: String? = null,
+    @Column
+    var employee: String? = null
 )

@@ -48,4 +48,17 @@ class ChartsController {
         ) as List<ChartModel>;
         return ResponseWrap(list)
     }
+
+    @GetMapping("/shop/{id}/employees")
+    fun getShopEmployees(@PathVariable(name="id", required = true) shopId:Long): ResponseWrap<List<ChartModel>>? {
+        var list : List<ChartModel> = jt.queryForList("select sum(e.quantity) as expectation, sum(s.quantity) as sales, e.product_group, concat (p.first_name,' ', p.last_name) as employee\n" +
+                "                from dashboard.expectations as e\n" +
+                "                inner join dashboard.sales as s\n" +
+                "                on e.product_group = s.product_group\n" +
+                "                inner join users.users as p\n" +
+                "                on s.user_id = p.id\n" +
+                "                where e.shop_id=3 group by e.product_group,p.first_name,p.last_name"
+        ) as List<ChartModel>;
+        return ResponseWrap(list)
+    }
 }
