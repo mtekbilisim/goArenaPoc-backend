@@ -18,7 +18,7 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         // process CORS annotations
-        http.cors().disable()
+        http.cors()
         http.csrf().disable()
         http.authorizeRequests()
             .antMatchers("/api/**").permitAll()
@@ -26,10 +26,6 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
             .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer().jwt() //or .opaqueToken();
-
-        // process CORS annotations
-        http.cors().disable()
-        http.csrf().disable()
 
         // force a non-empty response body for 401's to make the response more browser friendly
         Okta.configureResourceServer401ResponseBody(http)

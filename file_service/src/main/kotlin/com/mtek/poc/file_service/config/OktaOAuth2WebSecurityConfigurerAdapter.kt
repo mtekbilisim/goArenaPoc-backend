@@ -18,7 +18,7 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         // process CORS annotations
-        http.cors().disable()
+        http.cors()
         http.csrf().disable()
         http.authorizeRequests()
             .antMatchers("/api/**").permitAll()
