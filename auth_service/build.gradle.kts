@@ -22,9 +22,9 @@ extra["springCloudVersion"] = "2020.0.0"
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
- //   implementation("com.okta.spring:okta-spring-boot-starter:2.0.0")
+   implementation("com.okta.spring:okta-spring-boot-starter:2.0.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.3")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.5.3")
 
@@ -34,7 +34,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-//    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.security:spring-security-test")
 }
 
 dependencyManagement {

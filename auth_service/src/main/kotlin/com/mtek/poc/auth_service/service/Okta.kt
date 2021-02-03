@@ -64,7 +64,7 @@ class Okta(
         optionsMap.add("client_id", clientId)
         optionsMap.add("client_secret",clientSecret)
         optionsMap.add("grant_type","password")
-        optionsMap.add("scope","turkcell")
+        optionsMap.add("scope","openid")
         optionsMap.add("username",username)
         optionsMap.add("password",password)
         val entity = HttpEntity<MultiValueMap<String, String>>(optionsMap, headers)

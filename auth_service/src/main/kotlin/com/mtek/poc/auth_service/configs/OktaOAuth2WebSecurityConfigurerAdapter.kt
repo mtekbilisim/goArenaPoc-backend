@@ -1,5 +1,4 @@
 package com.mtek.poc.auth_service.configs
-/*
 import com.okta.spring.boot.oauth.Okta
 import org.springframework.context.annotation.Configuration
 
@@ -31,4 +30,3 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
         Okta.configureResourceServer401ResponseBody(http)
     }
 }
-*/
