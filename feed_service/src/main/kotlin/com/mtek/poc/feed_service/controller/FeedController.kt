@@ -4,7 +4,6 @@ import com.mtek.poc.feed_service.configs.ResponseWrap
 import com.mtek.poc.feed_service.enums.FeedStatus
 import com.mtek.poc.feed_service.model.FeedModel
 import com.mtek.poc.feed_service.model.FeedPlainModel
-import com.mtek.poc.feed_service.model.LikeModel
 import com.mtek.poc.feed_service.repository.FeedsPostRepository
 import com.mtek.poc.feed_service.repository.FeedsRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.rest.webmvc.ResourceNotFoundException
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
-import javax.annotation.security.RolesAllowed
 
 //import com.mtek.poc.users_service.configs.KeycloakClientConfig;
 @RestController
@@ -30,10 +28,10 @@ class FeedController() {
         var result: ResponseWrap<List<FeedModel>>? = null
         if (keyword.isNullOrEmpty())
             result = ResponseWrap<List<FeedModel>>(
-                feedRepository.findAll(Sort.by("id").ascending()).filter { it.status == FeedStatus.APPROVED })
+                feedRepository.findAll(Sort.by("id").descending()).filter { it.status == FeedStatus.APPROVED })
         else
             result = ResponseWrap<List<FeedModel>>(
-                feedRepository.findByTitleContainsOrderByIdAsc(keyword).filter { it.status == FeedStatus.APPROVED })
+                feedRepository.findByTitleContainsOrderByIdDesc(keyword).filter { it.status == FeedStatus.APPROVED })
         return result
     }
 
@@ -41,7 +39,7 @@ class FeedController() {
     @GetMapping("/tagged/{tag}")
     fun allByTagName(@PathVariable(name = "tag", required = true) tag: String): ResponseWrap<List<FeedModel>> {
         return ResponseWrap(
-            feedRepository.findByTagsContainsOrderByIdAsc(tag).filter { it.status == FeedStatus.APPROVED })
+            feedRepository.findByTagsContainsOrderByIdDesc(tag).filter { it.status == FeedStatus.APPROVED })
     }
 
     //@RolesAllowed("goarena-admins")
@@ -56,9 +54,9 @@ class FeedController() {
     fun adminAll(@RequestParam(name = "keyword", required = false) keyword: String?): ResponseWrap<List<FeedModel>> {
         var result: ResponseWrap<List<FeedModel>>? = null
         if (keyword.isNullOrEmpty())
-            result = ResponseWrap<List<FeedModel>>(feedRepository.findAll(Sort.by("id").ascending()))
+            result = ResponseWrap<List<FeedModel>>(feedRepository.findAll(Sort.by("id").descending()))
         else
-            result = ResponseWrap<List<FeedModel>>(feedRepository.findByTitleContainsOrderByIdAsc(keyword))
+            result = ResponseWrap<List<FeedModel>>(feedRepository.findByTitleContainsOrderByIdDesc(keyword))
         return result
     }
 
@@ -66,7 +64,7 @@ class FeedController() {
     @GetMapping("/admin/tagged/{tag}")
     fun allByTagNameAdmin(@PathVariable(name = "tag", required = true) tag: String): ResponseWrap<List<FeedModel>> {
         return ResponseWrap(
-            feedRepository.findByTagsContainsOrderByIdAsc(tag)
+            feedRepository.findByTagsContainsOrderByIdDesc(tag)
         )
     }
 
