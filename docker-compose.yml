@@ -2,12 +2,25 @@ version: "3"
 
 services:
 
+  postgresql:
+    build: 
+      context: .
+      dockerfile: PostgreSql.DockerFile
+    expose:
+      - "5432"
+    ports:
+      - "15432:5432"
+    networks:
+      - turkcell_poc
+
   redis:
     image: "redis:alpine"
     expose:
       - "6379"
     networks:
       - turkcell_poc
+    depends_on:
+      - "postgresql"
 
   servicediscovery:
     image: service_discovery:0.0.1-SNAPSHOT
