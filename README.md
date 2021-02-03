@@ -15,12 +15,9 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+
+
+
 
 
 
@@ -214,13 +211,13 @@ hiç bir kod yazmadan sadece anotasyonları etkileştirerek redis önbelleğini 
 <!-- CONTRIBUTING -->
 ## Katılım
 
-Katılım projenin bir POC olması sebebi ile **kapatılmıştır**. Ancak projemizi beğendiyseniz paylaşıma açığız. Bu sebeple MIT lisansını tercih ettik.
-
+Katılım projenin bir POC olması sebebi ile **kapatılmıştır**. Ancak projemizi beğendiyseniz paylaşıma açığız. Bu sebeple MIT lisansını tercih ettik.</br>
+[![LinkedIn][linkedin-shield]][linkedin-url]
 <!-- LICENSE -->
 ## Lisans
 
-MIT lisansı altında dağıtılmaktadır.
-
+MIT lisansı altında dağıtılmaktadır.</br>
+[![MIT License][license-shield]][license-url]
 
 
 <!-- CONTACT -->
