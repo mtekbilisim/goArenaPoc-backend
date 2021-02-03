@@ -17,6 +17,9 @@ import java.lang.Exception
 class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
+        // process CORS annotations
+        http.cors().disable()
+        http.csrf().disable()
         http.authorizeRequests()
             .antMatchers("/token").permitAll()
             .antMatchers("/signin").permitAll()

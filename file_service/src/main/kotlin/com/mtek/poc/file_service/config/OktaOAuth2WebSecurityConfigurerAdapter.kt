@@ -17,6 +17,9 @@ import java.lang.Exception
 class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
+        // process CORS annotations
+        http.cors().disable()
+        http.csrf().disable()
         http.authorizeRequests()
             .antMatchers("/api/**").permitAll()
             .antMatchers("/downloadFile/**").permitAll()
@@ -25,9 +28,7 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
             .and()
             .oauth2ResourceServer().jwt() //or .opaqueToken();
 
-        // process CORS annotations
-        http.cors().disable()
-        http.csrf().disable()
+
 
         // force a non-empty response body for 401's to make the response more browser friendly
         Okta.configureResourceServer401ResponseBody(http)
