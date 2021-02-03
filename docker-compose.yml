@@ -6,7 +6,7 @@ services:
     build: 
       context: .
       dockerfile: PostgreSql.DockerFile
-      image: turkcellpoc/postgresql:latest
+    image: turkcellpoc/postgresql:latest
     expose:
       - "5432"
     ports:
