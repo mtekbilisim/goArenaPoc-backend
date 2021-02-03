@@ -12,10 +12,10 @@ class FeedModel(
     @Column
     var title: String,
     @Column
+    var tags: String?,
+    @Column
     @Enumerated(EnumType.STRING)
     var postType: FeedType = FeedType.TEXT,
-    @Column
-    var likes: Int? = 0,
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "feedId", referencedColumnName = "id")
     var comments: List<CommentModel>,

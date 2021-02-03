@@ -38,6 +38,13 @@ class FeedController() {
     }
 
     //@RolesAllowed("goarena-admins")
+    @GetMapping("/tagged/{tag}")
+    fun allByTagName(@PathVariable(name = "tag", required = true) tag: String): ResponseWrap<List<FeedModel>> {
+        return ResponseWrap(
+            feedRepository.findByTagsContainsOrderByIdAsc(tag).filter { it.status == FeedStatus.APPROVED })
+    }
+
+    //@RolesAllowed("goarena-admins")
     @GetMapping("/user/{id}")
     fun allByUsername(@PathVariable(name = "id", required = false) userId: Long?): ResponseWrap<List<FeedModel>> {
         return ResponseWrap(
@@ -53,6 +60,14 @@ class FeedController() {
         else
             result = ResponseWrap<List<FeedModel>>(feedRepository.findByTitleContainsOrderByIdAsc(keyword))
         return result
+    }
+
+    //@RolesAllowed("goarena-admins")
+    @GetMapping("/admin/tagged/{tag}")
+    fun allByTagNameAdmin(@PathVariable(name = "tag", required = true) tag: String): ResponseWrap<List<FeedModel>> {
+        return ResponseWrap(
+            feedRepository.findByTagsContainsOrderByIdAsc(tag)
+        )
     }
 
     //@RolesAllowed("goarena-users")
