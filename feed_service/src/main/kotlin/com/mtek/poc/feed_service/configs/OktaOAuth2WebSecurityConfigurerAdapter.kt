@@ -46,12 +46,5 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
                     )
             )
     }
-    @Bean
-    fun corsConfigurer(): WebMvcConfigurer? {
-        return object : WebMvcConfigurer {
-            override fun addCorsMappings(registry: CorsRegistry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedOriginPatterns("*").allowedHeaders("*")
-            }
-        }
-    }
+
 }

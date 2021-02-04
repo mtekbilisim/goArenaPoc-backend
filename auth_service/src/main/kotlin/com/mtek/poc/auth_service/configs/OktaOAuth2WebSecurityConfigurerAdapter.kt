@@ -1,4 +1,5 @@
 package com.mtek.poc.auth_service.configs
+
 import com.okta.spring.boot.oauth.Okta
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
@@ -12,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import java.lang.Exception
-
 
 
 @Configuration
@@ -32,7 +32,6 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
             .oauth2ResourceServer().jwt() //or .opaqueToken();
 
 
-
         // force a non-empty response body for 401's to make the response more browser friendly
         Okta.configureResourceServer401ResponseBody(http)
     }
@@ -49,12 +48,5 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
             )
     }
 
-    @Bean
-    fun corsConfigurer(): WebMvcConfigurer? {
-        return object : WebMvcConfigurer {
-            override fun addCorsMappings(registry: CorsRegistry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedOriginPatterns("*").allowedHeaders("*")
-            }
-        }
-    }
+
 }
