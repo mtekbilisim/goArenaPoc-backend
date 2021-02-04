@@ -9,6 +9,7 @@ import com.mtek.poc.auth_service.repository.UserRepository
 import com.mtek.poc.auth_service.service.Okta
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.rest.webmvc.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
@@ -35,6 +36,9 @@ class AuthController() {
     @PostMapping("/signin")
     fun signin(@RequestBody register: Register): ResponseWrap<EmployeeModel> {
         var result = okta.signIn(register.firstName, register.lastName, register.email, register.password)
+        if(result.statusCode != HttpStatus.OK)
+            throw ResourceNotFoundException("Bu kullanıcı daha önce kaydedilmiş ya da şifre geçersiz.")
+
         var employee: EmployeeModel = EmployeeModel(
             register.firstName,
             0,
